@@ -1,0 +1,37 @@
+2018-03-17 23:37:45 WARN  EmployeeDAO:99 - Exception selecting specific customer
+java.sql.SQLSyntaxErrorException: ORA-00933: SQL command not properly ended
+
+	at oracle.jdbc.driver.T4CTTIoer.processError(T4CTTIoer.java:450)
+	at oracle.jdbc.driver.T4CTTIoer.processError(T4CTTIoer.java:399)
+	at oracle.jdbc.driver.T4C8Oall.processError(T4C8Oall.java:1017)
+	at oracle.jdbc.driver.T4CTTIfun.receive(T4CTTIfun.java:655)
+	at oracle.jdbc.driver.T4CTTIfun.doRPC(T4CTTIfun.java:249)
+	at oracle.jdbc.driver.T4C8Oall.doOALL(T4C8Oall.java:566)
+	at oracle.jdbc.driver.T4CPreparedStatement.doOall8(T4CPreparedStatement.java:215)
+	at oracle.jdbc.driver.T4CPreparedStatement.doOall8(T4CPreparedStatement.java:58)
+	at oracle.jdbc.driver.T4CPreparedStatement.executeForDescribe(T4CPreparedStatement.java:776)
+	at oracle.jdbc.driver.OracleStatement.executeMaybeDescribe(OracleStatement.java:897)
+	at oracle.jdbc.driver.OracleStatement.doExecuteWithTimeout(OracleStatement.java:1034)
+	at oracle.jdbc.driver.OraclePreparedStatement.executeInternal(OraclePreparedStatement.java:3820)
+	at oracle.jdbc.driver.OraclePreparedStatement.executeQuery(OraclePreparedStatement.java:3867)
+	at oracle.jdbc.driver.OraclePreparedStatementWrapper.executeQuery(OraclePreparedStatementWrapper.java:1502)
+	at com.revature.repository.EmployeeDAO.select(EmployeeDAO.java:89)
+	at com.revature.repository.Test.main(Test.java:5)
+2018-03-18 01:06:27 TRACE ReimbursementDao:93 - Before
+2018-03-18 01:06:54 TRACE ReimbursementDao:93 - Before
+2018-03-18 01:06:54 TRACE ReimbursementDao:96 - After
+2018-03-18 01:07:41 TRACE ReimbursementDao:93 - Before
+2018-03-18 01:07:41 TRACE ReimbursementDao:96 - After
+2018-03-18 01:11:06 TRACE ReimbursementDao:93 - Before
+2018-03-18 01:11:06 TRACE ReimbursementDao:96 - After
+2018-03-18 01:11:25 TRACE ReimbursementDao:93 - Before
+2018-03-18 01:11:25 TRACE ReimbursementDao:96 - After
+2018-03-18 01:22:01 TRACE ReimbursementDao:93 - Before
+2018-03-18 01:22:01 TRACE ReimbursementDao:96 - After
+2018-03-18 01:24:05 TRACE ReimbursementDao:93 - Before
+2018-03-18 01:24:05 TRACE ReimbursementDao:96 - After
+2018-03-18 01:29:51 TRACE ReimbursementDao:93 - Before
+2018-03-18 01:29:51 TRACE ReimbursementDao:96 - After
+2018-03-18 01:30:26 TRACE ReimbursementDao:93 - Before
+2018-03-18 01:30:26 TRACE ReimbursementDao:96 - After
+2018-03-19 21:37:03 INFO  ReimbursementDao:75 - Good

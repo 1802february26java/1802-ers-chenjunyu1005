@@ -1,6 +1,7 @@
 package com.revature.model;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
 /**
@@ -89,6 +90,70 @@ public class Reimbursement implements Serializable, Comparable<Reimbursement> {
 		this.approver = approver;
 		this.status = status;
 		this.type = type;
+	}
+	public Reimbursement(int id, LocalDateTime requested, LocalDateTime resolved, double amount, String description,
+			Employee requester,ReimbursementStatus status, ReimbursementType type) {
+		this.id = id;
+		this.requested = requested;
+		this.resolved = resolved;
+		this.amount = amount;
+		this.description = description;
+		this.requester = requester;
+		this.status = status;
+		this.type = type;
+	}
+	
+	public Reimbursement(LocalDateTime requested, LocalDateTime resolved, double amount, 
+			String description,
+			ReimbursementStatus status, 
+			ReimbursementType type) {
+		
+		this.requested = requested;
+		this.resolved = resolved;
+		this.amount = amount;
+		this.description = description;
+		this.status = status;
+		this.type = type;
+		
+	}
+	
+	public Reimbursement(int id ,Employee approver,ReimbursementStatus status){
+		this.id = id;
+		this.approver = approver;
+        this.status = status;
+
+	}
+	/**
+	 * This is for Manager to  view all the requests 
+	 * @param id
+	 * @param requested
+	 * @param resolved
+	 * @param amount
+	 * @param description
+	 * @param status
+	 * @param type
+	 */
+	public Reimbursement(int id,LocalDateTime requested, LocalDateTime resolved, double amount, 
+			String description,
+			ReimbursementStatus status, 
+			ReimbursementType type) {
+		this.id = id;
+		this.requested = requested;
+		this.resolved = resolved;
+		this.amount = amount;
+		this.description = description;
+		this.status = status;
+		this.type = type;
+		
+	}
+	public Reimbursement(int id){
+		this.id = id;
+
+	}
+
+	public Reimbursement(ReimbursementStatus status){
+		this.status = status;
+
 	}
 
 	public int getId() {

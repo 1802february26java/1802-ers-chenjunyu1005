@@ -64,6 +64,33 @@ public class Employee implements Serializable, Comparable<Employee> {
 		this.employeeRole = employeeRole;
 	}
 
+
+	public Employee(String firstName, String lastName, String username, String password,String email,EmployeeRole employeeRole) {
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.username = username;
+		this.password = password;
+		this.email = email;
+		this.employeeRole = employeeRole;
+
+	}
+	
+	public Employee(String firstName, String lastName, String username,String email) {
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.username = username;
+		this.email = email;
+	}
+
+	public Employee(String username, String password) {
+		this.username = username;
+		this.password = password;
+	}
+	
+	public Employee(int id){
+		this.id=id;
+	}
+
 	public int getId() {
 		return id;
 	}
