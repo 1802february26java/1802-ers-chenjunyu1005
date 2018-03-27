@@ -103,6 +103,31 @@ public class Reimbursement implements Serializable, Comparable<Reimbursement> {
 		this.type = type;
 	}
 	
+	/**
+	 * Pending
+	 */
+	public Reimbursement(int id, LocalDateTime requested, double amount, String description,
+			Employee requester,ReimbursementStatus status, ReimbursementType type) {
+		this.id = id;
+		this.requested = requested;
+		this.amount = amount;
+		this.description = description;
+		this.requester = requester;
+		this.status = status;
+		this.type = type;
+	}
+	/**
+	 * To insert reimbursement
+	 */
+	public Reimbursement(double amount, String description,
+			Employee requester, ReimbursementType type) {
+		this.amount = amount;
+		this.description = description;
+		this.requester = requester;
+		this.status = status;
+		this.type = type;
+	}
+	
 	public Reimbursement(LocalDateTime requested, LocalDateTime resolved, double amount, 
 			String description,
 			ReimbursementStatus status, 
@@ -117,6 +142,22 @@ public class Reimbursement implements Serializable, Comparable<Reimbursement> {
 		
 	}
 	
+	public Reimbursement(LocalDateTime requested,double amount, 
+			String description,
+			ReimbursementStatus status, 
+			ReimbursementType type) {
+		
+		this.requested = requested;
+		this.amount = amount;
+		this.description = description;
+		this.status = status;
+		this.type = type;
+		
+	}
+	/**
+	 * finalize reimbersement
+	 * @param status
+	 */
 	public Reimbursement(int id ,Employee approver,ReimbursementStatus status){
 		this.id = id;
 		this.approver = approver;
@@ -133,7 +174,7 @@ public class Reimbursement implements Serializable, Comparable<Reimbursement> {
 	 * @param status
 	 * @param type
 	 */
-	public Reimbursement(int id,LocalDateTime requested, LocalDateTime resolved, double amount, 
+	public Reimbursement(int id,LocalDateTime requested, double amount, 
 			String description,
 			ReimbursementStatus status, 
 			ReimbursementType type) {
@@ -146,10 +187,31 @@ public class Reimbursement implements Serializable, Comparable<Reimbursement> {
 		this.type = type;
 		
 	}
-	public Reimbursement(int id){
+	/**
+	 * Selectpending
+	 */
+	public Reimbursement(int id,LocalDateTime requested,LocalDateTime resolved, double amount, 
+			String description,
+			ReimbursementStatus status, 
+			ReimbursementType type) {
 		this.id = id;
+		this.requested = requested;
+		this.resolved = resolved;
+		this.amount = amount;
+		this.description = description;
+		this.status = status;
+		this.type = type;
+		
+	}
+	
+	
+	public Reimbursement(int id ){
+		this.id = id;
+		this.status = status;
 
 	}
+	
+	
 
 	public Reimbursement(ReimbursementStatus status){
 		this.status = status;

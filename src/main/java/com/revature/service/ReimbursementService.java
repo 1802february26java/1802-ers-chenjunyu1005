@@ -4,6 +4,7 @@ import java.util.Set;
 
 import com.revature.model.Employee;
 import com.revature.model.Reimbursement;
+import com.revature.model.ReimbursementStatus;
 import com.revature.model.ReimbursementType;
 
 /**
@@ -41,7 +42,7 @@ public interface ReimbursementService {
 	 * 
 	 * The parameter should at least contain the reimbursement id.
 	 */
-	public Reimbursement getSingleRequest(Reimbursement reimbursement);
+	public Reimbursement getSingleRequest(Reimbursement reimbursement, ReimbursementStatus status);
 	
 	/**
 	 * Returns a set of PENDING requests of a specific employee.

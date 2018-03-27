@@ -56,7 +56,11 @@ public class EmployeeServiceAlpha implements EmployeeService {
 
 	@Override
 	public boolean isUsernameTaken(Employee employee) {
-		return EmployeeDAO.getInstance().insert(employee);
+//		return EmployeeDAO.getInstance().insert(employee);
+		if(EmployeeDAO.getInstance().select(employee.getUsername())==null){
+			return false;
+		}
+		return true;
 	}
 
 	@Override

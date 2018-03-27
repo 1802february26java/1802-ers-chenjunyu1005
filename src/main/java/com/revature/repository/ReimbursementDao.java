@@ -31,24 +31,23 @@ public class ReimbursementDao implements ReimbursementRepository{
 		try {
 			//Reimbersement managerID null, if null is pending
 			int parameterIndex=0;
-
-			String sql ="INSER INTO reimbursement VALUES(NULL,?,NULL,?,?,?,?,?,?)";
+			String sql ="INSERT INTO reimbursement VALUES(NULL,?,NULL,?,?,NULL,?,NULL,?,(SELECT RT_ID FROM reimbursement_type WHERE RT_TYPE = ? ))";
 			PreparedStatement statement = connection.prepareStatement(sql);
-			statement.setTimestamp(++parameterIndex,Timestamp.valueOf(reimbursement.getRequested()));
+			statement.setTimestamp(++parameterIndex,new Timestamp(System.currentTimeMillis()));
 			statement.setDouble(++parameterIndex, reimbursement.getAmount());
 			statement.setString(++parameterIndex, reimbursement.getDescription());
 			statement.setInt(++parameterIndex, reimbursement.getRequester().getId());
-			statement.setInt(++parameterIndex, reimbursement.getApprover().getId());
-			statement.setInt(++parameterIndex,reimbursement.getStatus().getId() );
-			statement.setInt(++parameterIndex,reimbursement.getType().getId() );
+			statement.setInt(++parameterIndex,1);
+			statement.setString(++parameterIndex,reimbursement.getType().getType().toUpperCase());
 
 			int executeUpdate = statement.executeUpdate();
 			if(executeUpdate>0){
-				logger.info("Inserted good");
+				logger.info("Submitting Reimbursement Successful");
 				return true;
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
+			logger.warn("Error Inserting"+e);
+
 		}
 
 		return false;
@@ -60,8 +59,8 @@ public class ReimbursementDao implements ReimbursementRepository{
 	public boolean update(Reimbursement reimbursement) {
 		try {
 			String sql="UPDATE reimbursement r "+
-					"SET r.RS_ID = (SELECT s.rs_id FROM reimbursement_status s WHERE rs_status = ?),"
-					+ "R_resolved = CURRENT_TIMESTAMP,"
+					"SET r.RS_ID = (SELECT s.rs_id FROM reimbursement_status s WHERE rs_status = ?), "
+					+ "R_resolved = CURRENT_TIMESTAMP, "
 					+ "Manager_id =? "
 					+ "WHERE r_id =?";
 
@@ -71,12 +70,12 @@ public class ReimbursementDao implements ReimbursementRepository{
 			statement.setInt(3, reimbursement.getId());
 			int executeUpdate = statement.executeUpdate();
 			if(executeUpdate>0){
-				logger.info("Good");
+				logger.info("update success");
 				return true;
 			}
 
 		} catch (SQLException e) {
-			e.printStackTrace();
+			logger.warn("Error when updating");
 		}
 		return false;
 	}
@@ -87,7 +86,7 @@ public class ReimbursementDao implements ReimbursementRepository{
 	 * A join should be performed with respective reimbursement status and type.
 	 */
 	@Override
-	public Reimbursement select(int reimbursementId) {
+	public Reimbursement select(int reimbursementId, ReimbursementStatus status) {
 		try {
 			String sql="SELECT *FROM REIMBURSEMENT R, REIMBURSEMENT_STATUS A,REIMBURSEMENT_TYPE T WHERE R.RS_ID=A.RS_ID AND R.RT_ID=T.RT_ID AND R.R_ID=?";
 			PreparedStatement statement = connection.prepareStatement(sql);
@@ -96,14 +95,24 @@ public class ReimbursementDao implements ReimbursementRepository{
 			ResultSet rs = statement.executeQuery();
 
 			if(rs.next()){
+				if(status.getStatus().equals("PENDING")){
 				return new Reimbursement(
 						rs.getTimestamp("R_REQUESTED").toLocalDateTime(),
-						rs.getTimestamp("R_RESOLVED").toLocalDateTime(),
 						rs.getDouble("R_AMOUNT"),
 						rs.getString("R_DESCRIPTION"),
 						new ReimbursementStatus(rs.getString("RS_STATUS")),
 						new ReimbursementType(rs.getString("RT_TYPE"))
 						);
+				}else{
+					return new Reimbursement(
+							rs.getTimestamp("R_REQUESTED").toLocalDateTime(),
+							rs.getTimestamp("R_RESOLVED").toLocalDateTime(),
+							rs.getDouble("R_AMOUNT"),
+							rs.getString("R_DESCRIPTION"),
+							new ReimbursementStatus(rs.getString("RS_STATUS")),
+							new ReimbursementType(rs.getString("RT_TYPE"))
+							);
+				}
 			}
 			
 
@@ -134,7 +143,6 @@ public class ReimbursementDao implements ReimbursementRepository{
 				set.add(	
 						new Reimbursement(rs.getInt("U_ID"),
 								rs.getTimestamp("R_REQUESTED").toLocalDateTime(),
-								rs.getTimestamp("R_RESOLVED").toLocalDateTime(),
 								rs.getDouble("R_AMOUNT"),
 								rs.getString("R_DESCRIPTION"),
 								new ReimbursementStatus(rs.getString("RS_STATUS")),
@@ -200,9 +208,8 @@ public class ReimbursementDao implements ReimbursementRepository{
 		ResultSet rs = statement.executeQuery();
 		while(rs.next()){
 			set.add(	
-					new Reimbursement(rs.getInt("U_ID"),
+					new Reimbursement(rs.getInt("R_ID"),
 							rs.getTimestamp("R_REQUESTED").toLocalDateTime(),
-							rs.getTimestamp("R_RESOLVED").toLocalDateTime(),
 							rs.getDouble("R_AMOUNT"),
 							rs.getString("R_DESCRIPTION"),
 							new Employee(rs.getString("U_FIRSTNAME"),rs.getString("U_LASTNAME"),rs.getString("U_USERNAME"),rs.getString("U_EMAIL")),
@@ -213,10 +220,8 @@ public class ReimbursementDao implements ReimbursementRepository{
 		}
 		return set;
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
 		return null;
 	}
 
@@ -237,7 +242,7 @@ public class ReimbursementDao implements ReimbursementRepository{
 			Set<Reimbursement> set =new HashSet<>();
 			while(rs.next()){
 				set.add(	
-						new Reimbursement(rs.getInt("U_ID"),
+						new Reimbursement(rs.getInt("R_ID"),
 								rs.getTimestamp("R_REQUESTED").toLocalDateTime(),
 								rs.getTimestamp("R_RESOLVED").toLocalDateTime(),
 								rs.getDouble("R_AMOUNT"),

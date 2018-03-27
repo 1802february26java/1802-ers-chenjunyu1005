@@ -34,6 +34,10 @@ public class ReimbursementType implements Serializable {
 	
 		this.type = type;
 	}
+	public ReimbursementType(int id ){
+		this.id = id;
+		
+	}
 
 	public int getId() {
 		return id;

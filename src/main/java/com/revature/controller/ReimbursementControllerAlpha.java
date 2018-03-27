@@ -5,11 +5,14 @@ import java.time.format.DateTimeFormatter;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.log4j.Logger;
+
 import com.revature.ajax.ClientMessage;
 import com.revature.model.Employee;
 import com.revature.model.Reimbursement;
 import com.revature.model.ReimbursementStatus;
 import com.revature.model.ReimbursementType;
+import com.revature.repository.EmployeeDAO;
 import com.revature.service.ReimbursementSeriveAlpha;
 
 
@@ -24,6 +27,7 @@ import com.revature.service.ReimbursementSeriveAlpha;
  * @author Revature LLC
  */
 public class ReimbursementControllerAlpha implements ReimbursementController{
+	private static Logger logger = Logger.getLogger(ReimbursementControllerAlpha.class);
 
 	/**
 	 * Creates a reimbursement request.
@@ -35,20 +39,30 @@ public class ReimbursementControllerAlpha implements ReimbursementController{
 	 */
 	@Override
 	public Object submitRequest(HttpServletRequest request) {
+		
+		Employee employeeInformation=(Employee)request.getSession().getAttribute("authenticate");
+
+		if(employeeInformation==null){
+			return "login.html";
+		}
+		
+		if(employeeInformation.getEmployeeRole().getType().equals("EMPLOYEE")){
 		boolean submitRequest = ReimbursementSeriveAlpha.getInstance().submitRequest(
-				new Reimbursement(Integer.parseInt(request.getParameter("id")), 
-						LocalDateTime.parse(request.getParameter("requestTime"), DateTimeFormatter.ISO_DATE_TIME),
-						LocalDateTime.parse(request.getParameter("requestTime"), DateTimeFormatter.ISO_DATE_TIME),
+				new Reimbursement(
 						Double.parseDouble(request.getParameter("amount")),
 						request.getParameter("description"),
-						new Employee(Integer.parseInt(request.getParameter("employeeId"))),
-						new ReimbursementStatus(Integer.parseInt(request.getParameter("statusid")),request.getParameter("status")),
-						new ReimbursementType(Integer.parseInt(request.getParameter("typeid")),request.getParameter("type"))
-						)
+						new Employee(employeeInformation.getId()),
+						new ReimbursementType(request.getParameter("type"))
+								));
+		
 
-				);
+		if(submitRequest){
 
-		return submitRequest;
+			return 	new ClientMessage("Submit Success");
+		}
+		return new ClientMessage("Fails");
+		}
+		return new ClientMessage("Only Employee Can Submit");
 	}
 
 	/**
@@ -59,8 +73,13 @@ public class ReimbursementControllerAlpha implements ReimbursementController{
 
 	@Override
 	public Object singleRequest(HttpServletRequest request) {
+		if(request.getMethod().equals("GET")){
+			return "singleRequest.html";
+		}
+		
 		return ReimbursementSeriveAlpha.getInstance().getSingleRequest(
-				new Reimbursement(Integer.parseInt(request.getParameter("reimbursementId"))));
+				new Reimbursement(Integer.parseInt(request.getParameter("reimbursementId"))),
+				new ReimbursementStatus(request.getParameter("status").toUpperCase()));
 
 	}
 	/**
@@ -71,31 +90,45 @@ public class ReimbursementControllerAlpha implements ReimbursementController{
 
 	@Override
 	public Object multipleRequests(HttpServletRequest request) {
-		if(request.getParameter("roles").equals("MANAGER")){
+		
+		
+	 Employee information = (Employee)request.getSession().getAttribute("authenticate");
+	 
+	
+		if(information.getEmployeeRole().getType().equals("MANAGER")){
+			if(request.getMethod().equals("GET")){
+				 return "viewAllReim.html";
+			 }
 
-			if(request.getParameter("managerstatus").equals("PENDING"))
+			if(request.getParameter("status").toUpperCase().equals("PENDING"))
 				return ReimbursementSeriveAlpha.getInstance().getAllPendingRequests(
 						);
-			else if(request.getParameter("status").equals("APPROVED")|request.getParameter("status").equals("DECLINED")){
+			else if(request.getParameter("status").toUpperCase().equals("RESOVLED")){
 				return ReimbursementSeriveAlpha.getInstance().getAllResolvedRequests();
 			}
+			return new ClientMessage("Not Valid");
 
-		}else{
+		}else if(information.getEmployeeRole().getType().equals("EMPLOYEE")){
+			if(request.getMethod().equals("GET")){
+				 return "employeeViewReim.html";
+			 }
 
-			if(request.getParameter("employeestatus").equals("PENDING")){
+			if(request.getParameter("status").toUpperCase().equals("PENDING")){
 				return ReimbursementSeriveAlpha.getInstance().getUserPendingRequests(
 
 						new Employee(Integer.parseInt(request.getParameter("id"))
 								));
-			}else if(request.getParameter("employeestatus").equals("APPROVED")|request.getParameter("employeestatus").equals("DECLINED")){
+			}else if(request.getParameter("status").toUpperCase().equals("RESOVLED")){
 				return ReimbursementSeriveAlpha.getInstance().getUserFinalizedRequests(new Employee(Integer.parseInt(request.getParameter("id")
-						)));
+						)));	
 
-			}
-			
+			}	
+			return new ClientMessage("Not Valid");
+
 
 		}
 		return null;
+
 	}
 
 	/**
@@ -108,10 +141,20 @@ public class ReimbursementControllerAlpha implements ReimbursementController{
 	 */
 	@Override
 	public Object finalizeRequest(HttpServletRequest request) {
-		if(request.getParameter("roles").equals("MANAGER")){
-			ReimbursementSeriveAlpha.getInstance().finalizeRequest(
-					new Reimbursement(new ReimbursementStatus(request.getParameter("status"))));
-			return new ClientMessage("Success");
+		 Employee information = (Employee)request.getSession().getAttribute("authenticate");
+//			System.out.println(request.getParameter("status").toUpperCase());
+
+		if(information.getEmployeeRole().getType().equals("MANAGER")){
+			
+
+			boolean finalizeRequest = ReimbursementSeriveAlpha.getInstance().finalizeRequest(
+					new Reimbursement(Integer.parseInt(request.getParameter("reimbursementId")),
+							new Employee(information.getId()),
+							new ReimbursementStatus(request.getParameter("reimbursementstatus").toUpperCase())
+							));
+			if(finalizeRequest)
+				return new ClientMessage("Update Reimbursement Successfully");
+			return new ClientMessage("Fails");
 		}
 		return new  ClientMessage("Do not have authority to do it ");
 	}

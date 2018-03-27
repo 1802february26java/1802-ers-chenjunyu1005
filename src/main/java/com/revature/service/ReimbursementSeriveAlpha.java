@@ -5,6 +5,7 @@ import java.util.Set;
 import com.revature.exception.NegativeAmountException;
 import com.revature.model.Employee;
 import com.revature.model.Reimbursement;
+import com.revature.model.ReimbursementStatus;
 import com.revature.model.ReimbursementType;
 import com.revature.repository.ReimbursementDao;
 
@@ -34,9 +35,9 @@ public class ReimbursementSeriveAlpha implements ReimbursementService {
 	}
 
 	@Override
-	public Reimbursement getSingleRequest(Reimbursement reimbursement) {
+	public Reimbursement getSingleRequest(Reimbursement reimbursement, ReimbursementStatus status) {
 
-		return ReimbursementDao.getInstance().select(reimbursement.getId());
+		return ReimbursementDao.getInstance().select(reimbursement.getId(),status);
 	}
 
 	@Override
@@ -53,12 +54,14 @@ public class ReimbursementSeriveAlpha implements ReimbursementService {
 
 	@Override
 	public Set<Reimbursement> getAllPendingRequests() {
+		
 
 		return ReimbursementDao.getInstance().selectAllPending();
 	}
 
 	@Override
 	public Set<Reimbursement> getAllResolvedRequests() {
+		
 
 		return ReimbursementDao.getInstance().selectAllFinalized();
 	}

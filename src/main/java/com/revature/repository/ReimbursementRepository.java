@@ -3,6 +3,7 @@ package com.revature.repository;
 import java.util.Set;
 
 import com.revature.model.Reimbursement;
+import com.revature.model.ReimbursementStatus;
 import com.revature.model.ReimbursementType;
 
 /**
@@ -39,7 +40,7 @@ public interface ReimbursementRepository {
 	 * 
 	 * A join should be performed with respective reimbursement status and type.
 	 */
-	public Reimbursement select(int reimbursementId);
+	public Reimbursement select(int reimbursementId ,ReimbursementStatus status);
 	
 	/**
 	 * Returns a set of PENDING requests of a specific employee.

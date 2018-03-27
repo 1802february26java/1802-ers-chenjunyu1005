@@ -35,6 +35,10 @@ public class ReimbursementStatus implements Serializable {
 		
 		this.status = status;
 	}
+	public ReimbursementStatus(int id) {
+		this.id = id;
+	
+	}
 
 	public int getId() {
 		return id;

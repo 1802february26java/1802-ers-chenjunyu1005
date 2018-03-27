@@ -35,3 +35,18 @@ java.sql.SQLSyntaxErrorException: ORA-00933: SQL command not properly ended
 2018-03-18 01:30:26 TRACE ReimbursementDao:93 - Before
 2018-03-18 01:30:26 TRACE ReimbursementDao:96 - After
 2018-03-19 21:37:03 INFO  ReimbursementDao:75 - Good
+2018-03-21 17:35:38 WARN  EmployeeDAO:127 - Exception selecting customer by username
+java.sql.SQLException: Invalid column name
+	at oracle.jdbc.driver.OracleStatement.getColumnIndex(OracleStatement.java:3965)
+	at oracle.jdbc.driver.InsensitiveScrollableResultSet.findColumn(InsensitiveScrollableResultSet.java:299)
+	at oracle.jdbc.driver.GeneratedResultSet.getInt(GeneratedResultSet.java:1350)
+	at com.revature.repository.EmployeeDAO.select(EmployeeDAO.java:117)
+	at com.revature.repository.Test.main(Test.java:12)
+2018-03-22 14:03:36 WARN  ReimbursementDao:50 - Error Insertingjava.sql.SQLSyntaxErrorException: ORA-00936: missing expression
+
+2018-03-22 14:04:46 WARN  ReimbursementDao:50 - Error Insertingjava.sql.SQLSyntaxErrorException: ORA-00936: missing expression
+
+2018-03-22 19:04:50 WARN  ReimbursementDao:50 - Error Insertingjava.sql.SQLIntegrityConstraintViolationException: ORA-01400: cannot insert NULL into ("REIMBURSEMENT_DB"."REIMBURSEMENT"."RT_ID")
+
+2018-03-24 23:39:25 WARN  ReimbursementDao:49 - Error Insertingjava.sql.SQLIntegrityConstraintViolationException: ORA-01400: cannot insert NULL into ("REIMBURSEMENT_DB"."REIMBURSEMENT"."RT_ID")
+

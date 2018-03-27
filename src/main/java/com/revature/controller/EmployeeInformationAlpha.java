@@ -19,44 +19,56 @@ public class EmployeeInformationAlpha implements EmployeeInformationController{
 	 */
 	@Override
 	public Object registerEmployee(HttpServletRequest request) {
-
-		if(request.getParameter("userType").equals("MANAGER")){
+		if (request.getMethod().equals("GET")) {
+			return "register.html";
+		}
+		Employee employeeInformation=(Employee)request.getSession().getAttribute("authenticate");
+		
+		if(employeeInformation.getEmployeeRole().getType().equals("MANAGER")){
+			/*if(EmployeeServiceAlpha.getInstance().isUsernameTaken(new Employee(request.getParameter("username")))==true){
+				 return new ClientMessage("No Such Username");
+			}else if(EmployeeServiceAlpha.getInstance().isUsernameTaken(new Employee(request.getParameter("username")))==false){
+				 return new ClientMessage("Name Exist");
+			}*/
 			boolean createEmployee = EmployeeServiceAlpha.getInstance().createEmployee
-					(
-							new Employee(0,
-									request.getParameter("firstname"),
-									request.getParameter("lastname"),
+					(new Employee(0,
+									request.getParameter("firstName"),
+									request.getParameter("lastName"),
 									request.getParameter("username"),
 									request.getParameter("password"),
 									request.getParameter("email"),
 									new EmployeeRole(1,"EMPLOYEE")
 									));
-			if(createEmployee){
-				new ClientMessage("Succefull");
-			}else{
-				new ClientMessage("Fail");
-			}
-		}
+			        if(createEmployee){
+				      return new ClientMessage("REGISTRATION SUCCESSFUL");
+			       }else{
+				    return new ClientMessage("Fail");
+			          }
+			 
+		     }
 		else{
-			new ClientMessage("Do not have the permission to register a Employee");
+			return new ClientMessage("Do not have the permission to register a Employee");
 		}
-		return request;
 
-
-		
 	}
 
 	@Override
 	public Object updateEmployee(HttpServletRequest request) {
-		
+		Employee employeeInformation=(Employee)request.getSession().getAttribute("authenticate");
+		if(employeeInformation==null){
+			return "login.html";
+		}
+
 		 boolean updateEmployeeInformation = EmployeeServiceAlpha.getInstance().updateEmployeeInformation(
-				new Employee(request.getParameter("firstname"),
-						request.getParameter("lastname"),
+				new Employee(employeeInformation.getId(),
+						request.getParameter("firstName"),
+						request.getParameter("lastName"),
 						request.getParameter("username"),
 						request.getParameter("email")
+
 				));
 		 if(updateEmployeeInformation){
-			 return new ClientMessage("Succefully updated");
+			 return new ClientMessage("Succefully Updated");
 		 }else{
 			 return new ClientMessage("Fails");
 		 }
@@ -64,14 +76,30 @@ public class EmployeeInformationAlpha implements EmployeeInformationController{
 
 	@Override
 	public Object viewEmployeeInformation(HttpServletRequest request) {
-		Employee employeeInformation = EmployeeServiceAlpha.getInstance().getEmployeeInformation(
-				new Employee(Integer.parseInt(request.getParameter("id")))
-				);
-		return employeeInformation;
+		Employee employeeInformation=(Employee)request.getSession().getAttribute("authenticate");
+		if(employeeInformation==null){
+			return "login.html";
+		}
+         //Get the corresonding Empoyee id 
+		if(request.getParameter("fetch") == null) {
+			return "view-employee.html";
+		}else{
+		return  EmployeeServiceAlpha.getInstance().getEmployeeInformation(
+				new Employee(employeeInformation.getId())
+				);	
+		}
 	}
 
 	@Override
 	public Object viewAllEmployees(HttpServletRequest request) {
+		Employee employeeInformation=(Employee)request.getSession().getAttribute("authenticate");
+
+		if(employeeInformation==null){
+			return "login.html";
+		}
+		if(request.getParameter("fetch") == null) {
+			return "viewAllEmployee.html";
+		}
 		return EmployeeServiceAlpha.getInstance().getAllEmployeesInformation();
 		
 	}

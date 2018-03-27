@@ -61,12 +61,13 @@ public class EmployeeDAO implements EmployeeRepository {
 	public boolean update(Employee employee) {
 		try {
 			int parameterIndex =0;
-			String sql="UPDATE USER_T SET U_FIRSTNAME=? , U_LASTNAME=? ,U_EMAIL=? Where U_USERNAME=? ";
+			String sql="UPDATE USER_T SET U_FIRSTNAME=? , U_LASTNAME=?, U_USERNAME=? , U_EMAIL=? Where U_ID=?";
 			PreparedStatement statement = connection.prepareStatement(sql);
 			statement.setString(++parameterIndex, employee.getFirstName());
 			statement.setString(++parameterIndex, employee.getLastName());
-			statement.setString(++parameterIndex, employee.getEmail());
 			statement.setString(++parameterIndex, employee.getUsername());
+			statement.setString(++parameterIndex, employee.getEmail());
+			statement.setInt(++parameterIndex, employee.getId());
 			int executeUpdate = statement.executeUpdate();
 			if(executeUpdate>0){
 				return true;
@@ -107,14 +108,14 @@ public class EmployeeDAO implements EmployeeRepository {
 
 		try {
 
-			String sql="SELECT U.U_FIRSTNAME,U.U_LASTNAME,U.U_USERNAME,U.U_PASSWORD,U.U_EMAIL,R.UR_TYPE FROM USER_T U, USER_ROLE R WHERE U.UR_ID=R.UR_ID AND U.U_USERNAME =?";
+			String sql="SELECT U.U_ID,U.U_FIRSTNAME,U.U_LASTNAME,U.U_USERNAME,U.U_PASSWORD,U.U_EMAIL,R.UR_TYPE FROM USER_T U, USER_ROLE R WHERE U.UR_ID=R.UR_ID AND U.U_USERNAME =?";
 
 			PreparedStatement statement = connection.prepareStatement(sql);
 			statement.setString(1, username);
 			ResultSet rs= statement.executeQuery();
 			if(rs.next()){
 //id and role maybe useful when login to different roles
-				return new Employee(rs.getString("U_FIRSTNAME"),
+				return new Employee(rs.getInt("U_ID"),rs.getString("U_FIRSTNAME"),
 						rs.getString("U_LASTNAME"),
 						rs.getString("U_USERNAME"),
 						rs.getString("U_PASSWORD"),
@@ -127,7 +128,7 @@ public class EmployeeDAO implements EmployeeRepository {
 			logger.warn("Exception selecting customer by username", e);
 
 		}
-		return new Employee();
+		return null;
 	}
 
 	@Override
