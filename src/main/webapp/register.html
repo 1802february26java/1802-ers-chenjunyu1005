@@ -21,15 +21,26 @@
     <nav class="navbar navbar-default">
         <div class="container-fluid">
             <div class="navbar-header">
-                <a href="login.do" class="navbar-brand"><strong>Login</strong></a>
-            </div>
-        </div>
+                <a href="home.do" class="navbar-brand"><strong>Home</strong></a>
+            </div> 
+        <ul class="nav navbar-nav">
+            <li class="dropdown">
+                <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><strong>Operations</strong><span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                    <li><a href="mutiplerequest.do">View All Request</a></li>
+                    <li><a href="viewall.do">View All Employee</a></li>
+
+                </ul>
+            </li>
+        </ul>
+    </div>
     </nav>
     <div class="col-md-4 col-md-offset-4">
         <div class="panel panel-default">
             <div class="panel-heading">
                 <h3>Register</h3>
             </div>
+            <form id="register" action="#" method="get">
             <div class="form-group">
                 <input id="firstName" name="firstName" placeholder="First name" class="form-control" />
             </div>
@@ -51,7 +62,8 @@
                 <input id="email" placeholder="Email" type="email" class="form-control password-large" />
             </div>
             <div id="registrationMessage"></div>
-            <button id="submit" class="btn btn-md btn-success btn-block">Submit</button>
+            <button id="submit" class="btn btn-md  btn-primary btn-block">Submit</button>
+            </form>
             <div class="panel-footer">
             </div>
         </div>

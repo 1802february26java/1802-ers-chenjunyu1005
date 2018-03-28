@@ -38,7 +38,7 @@
             </div>
             <div class="form-group">
                     <!-- <input id="status" name="status" placeholder="" class="form-control" /> -->
-                    <h6 style="text-align:center; color:red;" >Select Type Of Reimbursement From Blow</h6>
+                    <h6 class="dropdown-item" style="text-align:center; color:red;" ><strong>Select Reimbursement type</strong> </h6>
                     <select name="type" id="type" class="form-control">
                             <option value="other">OTHER</option>
                             <option value="course">COURSE</option>
@@ -46,6 +46,10 @@
                             <option value="traveling">TRAVELING</option>
                     </select>
                 </div>
+                <div class="form-group">
+                          <input type="file" class="form-control"  id="file" name="file">  
+                    </div>
+                    
            
             <div id="registrationMessage"></div>
             <button id="submit" class="btn btn-md btn-success btn-block">Submit Changes</button>

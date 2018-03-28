@@ -160,7 +160,7 @@ public class EmployeeDAO implements EmployeeRepository {
 
 	@Override
 	public String getPasswordHash(Employee employee) {
-	//Only hash based on password
+	//Only hash based on password might add username
 		try {
 			
 			String sql= "select GET_HASH(?)AS HASH from dual";
@@ -181,48 +181,56 @@ public class EmployeeDAO implements EmployeeRepository {
 
 
 	}
+	
+	
+	/**
+	 * Inserts a new password token.
+	 */
 
 	@Override
 	public boolean insertEmployeeToken(EmployeeToken employeeToken) {
 		// TODO Auto-generated method stub
 		try {
 
-			String sql ="INSERT INTO PASSWORD_RECOVERY VALUES(?,?,?) ";
+			String sql ="INSERT INTO PASSWORD_RECOVERY VALUES(NULL,?,CURRENT_TIMESTAMP,?) ";
 			PreparedStatement statement = connection.prepareStatement(sql);
 			statement.setString(1, employeeToken.getToken());
-			statement.setTimestamp(2, Timestamp.valueOf(employeeToken.getCreationDate()));
 			Employee requester = employeeToken.getRequester();
-			statement.setObject(3, requester.getPassword());
+			statement.setObject(2, requester.getId());
 			int executeUpdate = statement.executeUpdate();
 			if(executeUpdate>0){
 				return true;
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			logger.warn("Exception InsertToken", e);
+
 		}
 		return false;
 	}
-
+	/**
+	 * Deletes a password token from the database.
+	 */
 	@Override
 	public boolean deleteEmployeeToken(EmployeeToken employeeToken) {
 		try {
-			String sql ="DELETE ? FROM PASSWORD_RECOVERY WHERE U_USERNAME=?";
+			String sql ="DELETE PR_TOKEN FROM PASSWORD_RECOVERY WHERE U_ID=?";
 			PreparedStatement statement = connection.prepareStatement(sql);
-			statement.setString(1, employeeToken.getRequester().getPassword());
-			statement.setString(2, employeeToken.getRequester().getUsername());
-			Employee requester = employeeToken.getRequester();
-			statement.setObject(3, requester.getPassword());
+			statement.setInt(1, employeeToken.getRequester().getId());
 			int executeUpdate = statement.executeUpdate();
 			if(executeUpdate>0){
 				return true;
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			logger.warn("Exception deleteToken", e);
+
 		}		return false;
 
 	}
+	
+	/**
+	 * Returns a specific password token.
+	 */
 	@Override
 	public EmployeeToken selectEmployeeToken(EmployeeToken employeeToken) {
 

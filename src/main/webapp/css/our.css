@@ -3,11 +3,11 @@ a {
 }
 
 .navbar-default {
-    background-color: black;
+    background-color: lightblue;
 }
 
 .navbar-default .navbar-brand {
-    color: white;
+    color: rgb(255, 255, 255);
 }
 
 .navbar-default .navbar-brand:hover {
@@ -15,7 +15,7 @@ a {
 }
 
 .btn-block {
-    width: 50%;
+    width: 60%;
     margin: auto auto 10px;
 }
 

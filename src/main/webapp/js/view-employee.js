@@ -48,34 +48,56 @@ function presentCustomers(data){
     }
     //We  present all the customers to the user
     else{
-      //Get customer list node
-      let customerList = document.getElementById("profile");
+        var txt="";
+        txt += "<table class='table table-dark'>"; 
+        txt +="<thead>"
+         txt +="<tr>"
+         txt +="<th scope='col'>First</th>"
+         txt +="<th scope='col'>Last</th>"
+         txt +="<th scope='col'>Username</th>"
+         txt +="<th scope='col'>Email</th>"
+         txt +="</tr>"
+         txt +="</thead>"
+       txt +="<tbody>"
+            txt += "<tr>"
+            txt += "<td>" + data.firstName + "</td>";
+            txt += "<td>" + data.lastName + "</td>";
+            txt += "<td>" + data.username + "</td>";
+            txt += "<td>" + data.email + "</td>";
+           txt += "</tr>"
+       
+         txt += "</tbody>"
+           txt += "</table>" 
+           document.getElementById("profile").innerHTML = txt;
+      
+    //   //Get customer list node
+    //   let customerList = document.getElementById("profile");
 
-    //   //Clean customer list
-    //   customerList.innerHTML ="";
+    // //   //Clean customer list
+    // //   customerList.innerHTML ="";
 
       
-          //Creating node of <li>
-          let customerNode =document.createElement("li");
+    //       //Creating node of <li>
+    //       let customerNode =document.createElement("li");
           
-          //Add class for styling <li class="something">
-          //You can access any HTML field  do customerNoder.id
-          customerNode.className ="list-group-item";
+    //       //Add class for styling <li class="something">
+    //       //You can access any HTML field  do customerNoder.id
+    //       customerNode.className ="list-group-item";
           
-          //Creating innerHTML object, adding customer name to it
-          //<li class ="something">[creating this object] </li>
+    //       //Creating innerHTML object, adding customer name to it
+    //       //<li class ="something">[creating this object] </li>
 
-        let customerNodeText = document.createTextNode(`${data.firstName}  ${data.lastName}  ${data.username} 
-        ${data.email}`);
+    //     let customerNodeText = document.createTextNode(`${data.firstName}  ${data.lastName}  ${data.username} 
+    //     ${data.email}`);
 
 
-        customerNode.appendChild(customerNodeText);
+    //     customerNode.appendChild(customerNodeText);
 
-        //Finally. we append the new customerNode to the CustomerList
-        //<ul id ="customerList">
-        //<li class = "something"> Perez,julio</li>
-        //</ul>
-        customerList.appendChild(customerNode);
+    //     //Finally. we append the new customerNode to the CustomerList
+    //     //<ul id ="customerList">
+    //     //<li class = "something"> Perez,julio</li>
+    //     //</ul>
+    //     customerList.appendChild(customerNode);
     
 
 

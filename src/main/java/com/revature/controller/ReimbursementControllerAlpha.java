@@ -73,6 +73,12 @@ public class ReimbursementControllerAlpha implements ReimbursementController{
 
 	@Override
 	public Object singleRequest(HttpServletRequest request) {
+		Employee employeeInformation=(Employee)request.getSession().getAttribute("authenticate");
+		if(employeeInformation==null){
+			return "login.html";
+		}
+
+		
 		if(request.getMethod().equals("GET")){
 			return "singleRequest.html";
 		}
@@ -142,6 +148,9 @@ public class ReimbursementControllerAlpha implements ReimbursementController{
 	@Override
 	public Object finalizeRequest(HttpServletRequest request) {
 		 Employee information = (Employee)request.getSession().getAttribute("authenticate");
+			if(information==null){
+				return "login.html";
+			}
 //			System.out.println(request.getParameter("status").toUpperCase());
 
 		if(information.getEmployeeRole().getType().equals("MANAGER")){

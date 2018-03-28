@@ -55,6 +55,9 @@ public class EmployeeInformationAlpha implements EmployeeInformationController{
 	@Override
 	public Object updateEmployee(HttpServletRequest request) {
 		Employee employeeInformation=(Employee)request.getSession().getAttribute("authenticate");
+		if (request.getMethod().equals("GET")) {
+			return "updateinformation.html";
+		}
 		if(employeeInformation==null){
 			return "login.html";
 		}
@@ -97,6 +100,10 @@ public class EmployeeInformationAlpha implements EmployeeInformationController{
 		if(employeeInformation==null){
 			return "login.html";
 		}
+		/*if(request.getMethod().equals("GET")){
+			return "viewAllEmployee.html";
+
+		}*/
 		if(request.getParameter("fetch") == null) {
 			return "viewAllEmployee.html";
 		}

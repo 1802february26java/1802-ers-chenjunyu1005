@@ -52,27 +52,25 @@ function presentReimbursement(data){
       employeeList.innerHTML ="";
 
       data.forEach((employee) => {
-        // let dates = new Date(employee.requested);
-        sessionStorage.setItem("reimbursementId",employee.id);
-
           let employeeNode =document.createElement("a");
-          employeeNode.href="singlerequest.do";
+        //   employeeNode.href="singlerequest.do";
           employeeNode.className ="list-group-item";
           employeeNode.id="singleid";
-          
-          //If pending  resolved is null 
-        //   if(employee.resolved===null){
-    
         let employeeNodeText = document.createTextNode(`Amount:${employee.amount} FirstName:${ employee.requester.firstName} LastName: ${employee.requester.lastName} Email:  ${employee.requester.email}
         Status: ${employee.status.status} Type : ${employee.type.type}`);
-     
-
     //else retrieve resolved date
         employeeNode.appendChild(employeeNodeText);
 
         employeeList.appendChild(employeeNode);
-      });
 
+        employeeNode.addEventListener('click',(rid)=>{
+            sessionStorage.setItem("reimbursementId",employee.id);
+             window.location.replace("singlerequest.do");
+          });
+    
+      });
+      
+    
 
     }
 

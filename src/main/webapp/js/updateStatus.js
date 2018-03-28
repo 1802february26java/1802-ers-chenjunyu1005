@@ -28,7 +28,6 @@ function update(data) {
     if (data.message === "Update Reimbursement Successfully") {
         document.getElementById("listMessage").innerHTML = '<span class="label label-success label-center">Update Status Successfully</span>';
         setTimeout(() => { window.location.replace("mutiplerequest.do") }, 3000);
-
     }
     else {
 

@@ -3,7 +3,7 @@ window.onload =() => {
     
     //ListCustomer Event Listener
 
-    //  document.getElementById("singleid").addEventListener('click',getSingleRequst);
+    //  document.getElementById("singleid").addEventListener('click',getSingleRequst());
        
     
  //Get all customers  as soon as it loads
@@ -15,6 +15,8 @@ window.onload =() => {
 function getSingleRequst(){
 
    let reimbursementId= sessionStorage.getItem("reimbursementId");
+// document.getElementById("id")
+   console.log(reimbursementId);
    let status = sessionStorage.getItem("status");
    
     let xhr = new XMLHttpRequest();
@@ -50,25 +52,15 @@ function presentEmployee(data){
 
         document.getElementById("listMessage").innerHTML ='<span class="label label-danger label-center">Something Went Wrong</span>';
     }
-    //We  present all the customers to the user
     else{
-      //Get customer list node
+      
       let customerList = document.getElementById("profile");
 
-    //   //Clean customer list
-    //   customerList.innerHTML ="";
-
       
-          //Creating node of <li>
           let customerNode =document.createElement("li");
-          
-          //Add class for styling <li class="something">
-          //You can access any HTML field  do customerNoder.id
+         
           customerNode.className ="list-group-item";
           
-          //Creating innerHTML object, adding customer name to it
-          //<li class ="something">[creating this object] </li>
-
         let customerNodeText = document.createTextNode(`Amount : ${data.amount}  Description :${data.description} 
         Requested Date: ${data.requested.dayOfWeek}-${data.requested.month}-${data.requested.dayOfMonth}-${data.requested.year}
        Status: ${data.status.status} Type:${data.type.type}`);

@@ -45,20 +45,52 @@ function presentEmployees(data){
     
     else{
    
-      let employeeList = document.getElementById("profile");
-      employeeList.innerHTML ="";
+    //   let employeeList = document.getElementById("profile");
+    //   employeeList.innerHTML ="";
 
-      data.forEach((employee) => {
-          let employeeNode =document.createElement("li");
-          employeeNode.className ="list-group-item";
-        let employeeNodeText = document.createTextNode(`${employee.lastName},${employee.firstName}, ${employee.username} 
-        ${employee.email}`);
+    //   data.forEach((employee) => {
+    //       let employeeNode =document.createElement("li");
+    //       employeeNode.className ="list-group-item";
+    //     let employeeNodeText = document.createTextNode(`${employee.lastName},${employee.firstName}, ${employee.username} 
+    //     ${employee.email}`);
 
-        employeeNode.appendChild(employeeNodeText);
+    //     employeeNode.appendChild(employeeNodeText);
 
-        employeeList.appendChild(employeeNode);
-      });
-       
+    //     employeeList.appendChild(employeeNode);
+    //   });
+      var txt="";
+      txt += "<table class='table table-dark'>"; 
+      txt +="<thead>"
+       txt +="<tr>"
+       txt +="<th scope='col'>First</th>"
+       txt +="<th scope='col'>Last</th>"
+       txt +="<th scope='col'>Username</th>"
+       txt +="<th scope='col'>Email</th>"
+       txt +="<th scope='col'>Role</th>"
+       txt +="</tr>"
+       txt +="</thead>"
+     txt +="<tbody>"
+      for(y in data){
+         txt += "<tr>"
+         txt += "<td>" + data[y].firstName + "</td>";
+         txt += "<td>" + data[y].lastName + "</td>";
+         txt += "<td>" + data[y].username + "</td>";
+         txt += "<td>" + data[y].email + "</td>";
+         txt += "<td>" + data[y].employeeRole.type + "</td>";
+
+        txt += "</tr>"
+    }
+      txt += "</tbody>"
+        txt += "</table>" 
+        document.getElementById("profile").innerHTML = txt;
+   
+
+    }
+
+}
+
+
+
     // let employeeList = document.getElementById("profile");
     //  data.forEach((em) => {
     //     let trNode = document.createElement("tr");
@@ -71,6 +103,5 @@ function presentEmployees(data){
     //     });
     //     trNode.appendChild(tdNode);
     //  });
-    }
 
-}
+    

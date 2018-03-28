@@ -13,7 +13,7 @@ public class LoginControllerAlpha implements LoginController {
 
 	@Override
 	public Object login(HttpServletRequest request) {
-		if(request.getMethod().equals("Get")){
+		if(request.getMethod().equals("GET")){
 		return "login.html";
 		}
 //		boolean usernameTaken = EmployeeServiceAlpha.getInstance().isUsernameTaken(new Employee(
