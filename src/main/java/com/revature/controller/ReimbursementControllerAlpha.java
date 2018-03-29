@@ -1,7 +1,12 @@
 package com.revature.controller;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -12,7 +17,6 @@ import com.revature.model.Employee;
 import com.revature.model.Reimbursement;
 import com.revature.model.ReimbursementStatus;
 import com.revature.model.ReimbursementType;
-import com.revature.repository.EmployeeDAO;
 import com.revature.service.ReimbursementSeriveAlpha;
 
 
@@ -45,12 +49,29 @@ public class ReimbursementControllerAlpha implements ReimbursementController{
 		if(employeeInformation==null){
 			return "login.html";
 		}
-		
+		//get array of bytes into to the user;
+		System.out.println(request.getParameter("selectfile"));
+		byte[] bytes = request.getParameter("selectfile").getBytes();
+		new String();
+		/*BufferedInputStream image = new BufferedInputStream(new ByteArrayInputStream(bytes));
+		String path= "c:\tttt";
+		int len =0;
+		byte[] ch = new byte[1024*10];
+		try {
+			while((len=image.read(ch))!=-1){
+				new BufferedOutputStream(new FileOutputStream(new File(path))).write(ch,0,len);
+			}
+		} catch (IOException e) {
+			
+			e.printStackTrace();
+		}*/
+
 		if(employeeInformation.getEmployeeRole().getType().equals("EMPLOYEE")){
 		boolean submitRequest = ReimbursementSeriveAlpha.getInstance().submitRequest(
 				new Reimbursement(
 						Double.parseDouble(request.getParameter("amount")),
 						request.getParameter("description"),
+						bytes,
 						new Employee(employeeInformation.getId()),
 						new ReimbursementType(request.getParameter("type"))
 								));

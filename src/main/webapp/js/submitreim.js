@@ -8,7 +8,20 @@ window.onload =() => {
         let amount = document.getElementById("amount").value;
         let description = document.getElementById("description").value;
         let e = document.getElementById("type");
-        let type=e.options[e.selectedIndex].value;
+        let type = e.options[e.selectedIndex].value;
+        
+        
+        console.log(selectfile)
+        let reader = new FileReader();
+        reader.onload= (event)=>{
+            console.log(event.target.result);
+        }
+        let selectfile  = document.getElementById("file").files[0];
+        let img= reader.readAsDataURL(selectfile);
+   
+        // console.log(reader.readAsDataURL(selectfile));
+        // var formdata = new FormData();
+        // formdata.append( "sampleFile", sampleFile);
 
 
         //AJAX Logic 
@@ -30,9 +43,9 @@ window.onload =() => {
         
         //Doing a Http to a specific endpoint
 
-        xhr.open("POST",`summitrequest.do?amount=${amount}&description=${description}&type=${type}`);   
+    xhr.open("POST",`summitrequest.do?amount=${amount}&description=${description}&type=${type}&selectfile=${selectfile}`);   
         //Sending our request
-        xhr.send();
+        // xhr.send();
     
     })
 

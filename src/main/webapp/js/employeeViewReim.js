@@ -55,25 +55,52 @@ function presentReimbursement(data){
     }
     
     else{
-   
-      let employeeList = document.getElementById("profile");
-      employeeList.innerHTML ="";
 
-      data.forEach((employee) => {
-        // let dates = new Date(employee.requested);
-          let employeeNode =document.createElement("li");
-          employeeNode.className ="list-group-item";
-          //If pending  resolved is null 
-        //   if(employee.resolved===null){
-        let employeeNodeText = document.createTextNode(`Amount : ${employee.amount} Description:  ${employee.description} 
-       Status:  ${employee.status.status}  Type: ${employee.type.type}`);
-    // }
+        var txt="";
+      txt += "<table class='table table-dark'>"; 
+      txt +="<thead>"
+       txt +="<tr>"
+       txt +="<th scope='col'>Amount</th>"
+       txt +="<th scope='col'>Description</th>"
+       txt +="<th scope='col'>RequstedDate</th>"
+       txt +="<th scope='col'>Status</th>"
+       txt +="<th scope='col'>Type</th>"
+       txt +="</tr>"
+       txt +="</thead>"
+     txt +="<tbody>"
+      for(y in data){
+         txt += "<tr>"
+         txt += "<td>" + data[y].amount + "</td>";
+         txt += "<td>" + data[y].description + "</td>";
+         txt += "<td>" + data[y].requested.dayOfWeek+ "-"+data[y].requested.monthValue+"-"+ data[y].requested.dayOfMonth+"-"+data[y].requested.year+"</td>";
+         txt += "<td>" + data[y].status.status + "</td>";
+         txt += "<td>" + data[y].type.type + "</td>";
 
-    //else retrieve resolved date
-        employeeNode.appendChild(employeeNodeText);
+        txt += "</tr>"
+    }
+      txt += "</tbody>"
+        txt += "</table>" 
+        document.getElementById("profile").innerHTML = txt;
+        
+     
+    //   let employeeList = 
+    //   employeeList.innerHTML ="";
 
-        employeeList.appendChild(employeeNode);
-      });
+    //   data.forEach((employee) => {
+    //     // let dates = new Date(employee.requested);
+    //       let employeeNode =document.createElement("li");
+    //       employeeNode.className ="list-group-item";
+    //       //If pending  resolved is null 
+    //     //   if(employee.resolved===null){
+    //     let employeeNodeText = document.createTextNode(`Amount : ${employee.amount} Description:  ${employee.description} 
+    //    Status:  ${employee.status.status}  Type: ${employee.type.type}`);
+    // // }
+
+    // //else retrieve resolved date
+    //     employeeNode.appendChild(employeeNodeText);
+
+    //     employeeList.appendChild(employeeNode);
+    //   });
 
 
     }

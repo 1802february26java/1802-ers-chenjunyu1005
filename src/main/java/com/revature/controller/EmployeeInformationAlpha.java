@@ -25,11 +25,7 @@ public class EmployeeInformationAlpha implements EmployeeInformationController{
 		Employee employeeInformation=(Employee)request.getSession().getAttribute("authenticate");
 		
 		if(employeeInformation.getEmployeeRole().getType().equals("MANAGER")){
-			/*if(EmployeeServiceAlpha.getInstance().isUsernameTaken(new Employee(request.getParameter("username")))==true){
-				 return new ClientMessage("No Such Username");
-			}else if(EmployeeServiceAlpha.getInstance().isUsernameTaken(new Employee(request.getParameter("username")))==false){
-				 return new ClientMessage("Name Exist");
-			}*/
+			
 			boolean createEmployee = EmployeeServiceAlpha.getInstance().createEmployee
 					(new Employee(0,
 									request.getParameter("firstName"),
@@ -83,6 +79,7 @@ public class EmployeeInformationAlpha implements EmployeeInformationController{
 		if(employeeInformation==null){
 			return "login.html";
 		}
+		
          //Get the corresonding Empoyee id 
 		if(request.getParameter("fetch") == null) {
 			return "view-employee.html";
@@ -100,21 +97,26 @@ public class EmployeeInformationAlpha implements EmployeeInformationController{
 		if(employeeInformation==null){
 			return "login.html";
 		}
-		/*if(request.getMethod().equals("GET")){
-			return "viewAllEmployee.html";
-
-		}*/
+//		if(employeeInformation.getEmployeeRole().getType().equals("MANAGER")){
 		if(request.getParameter("fetch") == null) {
 			return "viewAllEmployee.html";
 		}
 		return EmployeeServiceAlpha.getInstance().getAllEmployeesInformation();
-		
-	}
+		}
+//		return new ClientMessage("Only Manager can see");
+	
 
 	@Override
 	public Object usernameExists(HttpServletRequest request) {
 		
-		boolean check= EmployeeServiceAlpha.getInstance().isUsernameTaken(new Employee(0
+		
+		
+		if(EmployeeServiceAlpha.getInstance().isUsernameTaken(new Employee(request.getParameter("username")))){
+		 return new ClientMessage("Username existed already");
+	}else {
+		 return new ClientMessage("Valid username");
+	}
+		/*boolean check= EmployeeServiceAlpha.getInstance().isUsernameTaken(new Employee(0
 				,request.getParameter("firstname"),
 				request.getParameter("lastname"),
 				request.getParameter("username"),
@@ -127,7 +129,7 @@ public class EmployeeInformationAlpha implements EmployeeInformationController{
 			return new ClientMessage("Usename is valid");
 		}else{
 			return new ClientMessage("Name Existed");
-		}
+		}*/
 	}
 
 }

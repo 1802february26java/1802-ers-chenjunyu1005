@@ -1,6 +1,9 @@
 window.onload =() => {
     //Register  Event Listener
-
+//   document.getElementById("checkusername").addEventListener('click',(rid)=>{
+ 
+//      window.location.replace("checkusername.");
+//   });
 
     document.getElementById("submit").addEventListener('click',()=>{
         

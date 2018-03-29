@@ -27,10 +27,7 @@ public class LoginControllerAlpha implements LoginController {
 		if(authenticate==null){
 			return new ClientMessage("AUTHENTICATION FAILED");
 		}
-//		if(usernameTaken==false){
-//			return new ClientMessage("No Such Username");
-//	
-//		}
+
 		request.getSession().setAttribute("authenticate",authenticate);
 		return authenticate;
 	}
@@ -39,6 +36,7 @@ public class LoginControllerAlpha implements LoginController {
 	public String logout(HttpServletRequest request) {
 
 		request.getSession().invalidate();
+//		request.getSession().setAttribute("authenticate", null);
 		return "login.html";
 	}
 

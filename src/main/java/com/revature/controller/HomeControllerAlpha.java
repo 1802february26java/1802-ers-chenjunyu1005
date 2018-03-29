@@ -2,9 +2,8 @@ package com.revature.controller;
 
 import javax.servlet.http.HttpServletRequest;
 
+
 import com.revature.model.Employee;
-import com.revature.service.EmployeeService;
-import com.revature.service.EmployeeServiceAlpha;
 
 public class HomeControllerAlpha implements HomeController{
 
@@ -19,8 +18,10 @@ public class HomeControllerAlpha implements HomeController{
 		}
 		if(employeeInformation.getEmployeeRole().getType().equals("EMPLOYEE")){
 			return "home.html";
-		}
+		}else {
 		return "home2.html";
+		}
+		
 	}
 
 }

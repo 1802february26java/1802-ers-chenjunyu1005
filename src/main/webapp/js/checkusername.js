@@ -1,7 +1,7 @@
 window.onload =() => {
     //Register  Event Listener
 
-
+      
     document.getElementById("checkusername").addEventListener('click',()=>{
         
       
@@ -28,7 +28,7 @@ window.onload =() => {
         
         //Doing a Http to a specific endpoint
 
-        xhr.open("POST",`register.do?username=${username}`);   
+        xhr.open("POST",`checkusername.do?username=${username}`);   
         //Sending our request
         xhr.send();
     
@@ -42,11 +42,11 @@ function register(data){
 
     //If Message is a member of the JSON,something went wrong 
     //check  username taken or went wrong
-    if(data.message==="No Such Username"){
+    if(data.message==="Username existed already"){
         //Confirm registration and redirect to login
         // document.getElementById("usernameMessage").innerHTML="";
         document.getElementById("usernameMessage").innerHTML ='<span class="label label-danger label-center">Username already exist try again</span>';
-
+       
         
 
        
@@ -60,6 +60,7 @@ function register(data){
     // document.getElementById("usernameMessage").innerHTML="";
 
     document.getElementById("usernameMessage").innerHTML ='<span class="label label-success label-center">userName is valid</span>';
+   
 
     }
 

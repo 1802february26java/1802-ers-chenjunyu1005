@@ -1,5 +1,7 @@
 package com.revature.repository;
 
+import java.io.InputStream;
+import java.sql.Blob;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -31,11 +33,12 @@ public class ReimbursementDao implements ReimbursementRepository{
 		try {
 			//Reimbersement managerID null, if null is pending
 			int parameterIndex=0;
-			String sql ="INSERT INTO reimbursement VALUES(NULL,?,NULL,?,?,NULL,?,NULL,?,(SELECT RT_ID FROM reimbursement_type WHERE RT_TYPE = ? ))";
+			String sql ="INSERT INTO reimbursement VALUES(NULL,?,NULL,?,?,?,?,NULL,?,(SELECT RT_ID FROM reimbursement_type WHERE RT_TYPE = ? ))";
 			PreparedStatement statement = connection.prepareStatement(sql);
 			statement.setTimestamp(++parameterIndex,new Timestamp(System.currentTimeMillis()));
 			statement.setDouble(++parameterIndex, reimbursement.getAmount());
 			statement.setString(++parameterIndex, reimbursement.getDescription());
+			statement.setBinaryStream(++parameterIndex,(InputStream) reimbursement.getReceipt());
 			statement.setInt(++parameterIndex, reimbursement.getRequester().getId());
 			statement.setInt(++parameterIndex,1);
 			statement.setString(++parameterIndex,reimbursement.getType().getType().toUpperCase());
@@ -96,10 +99,14 @@ public class ReimbursementDao implements ReimbursementRepository{
 
 			if(rs.next()){
 				if(status.getStatus().equals("PENDING")){
+					Blob image =rs.getBlob("R_RECEIPT");
+					byte[] imageData= image.getBytes(1,(int) image.length() );
+					
 				return new Reimbursement(
 						rs.getTimestamp("R_REQUESTED").toLocalDateTime(),
 						rs.getDouble("R_AMOUNT"),
 						rs.getString("R_DESCRIPTION"),
+						imageData,
 						new ReimbursementStatus(rs.getString("RS_STATUS")),
 						new ReimbursementType(rs.getString("RT_TYPE"))
 						);

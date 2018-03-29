@@ -15,7 +15,7 @@ a {
 }
 
 .btn-block {
-    width: 60%;
+    width: 50%;
     margin: auto auto 10px;
 }
 
@@ -42,4 +42,10 @@ a {
 
 .list-group-item{
     text-align: center;
+}
+body {
+    background-color: rgb(183, 203, 209);
+}
+.panel{
+    background-color:silver;
 }

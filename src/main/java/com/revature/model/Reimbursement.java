@@ -48,7 +48,7 @@ public class Reimbursement implements Serializable, Comparable<Reimbursement> {
 	 * Feel free to change the data type (on the Java side) at your own will.
 	 * In the end this will be transformed into a byte stream.
 	 */
-	private Object receipt;
+	private byte[] receipt;
 	
 	/**
 	 * NOT NULL
@@ -76,6 +76,19 @@ public class Reimbursement implements Serializable, Comparable<Reimbursement> {
 
 	public Reimbursement() {}
 	
+	public Reimbursement(int id, LocalDateTime requested, LocalDateTime resolved, double amount, String description,
+			byte[] receipt,	Employee requester, Employee approver, ReimbursementStatus status, ReimbursementType type) {
+		this.id = id;
+		this.requested = requested;
+		this.resolved = resolved;
+		this.amount = amount;
+		this.description = description;
+		this.receipt = receipt;
+		this.requester = requester;
+		this.approver = approver;
+		this.status = status;
+		this.type = type;
+	}
 	/**
 	 * It doesn't contain the receipt as a parameter.
 	 */
@@ -119,12 +132,12 @@ public class Reimbursement implements Serializable, Comparable<Reimbursement> {
 	/**
 	 * To insert reimbursement
 	 */
-	public Reimbursement(double amount, String description,
+	public Reimbursement(double amount, String description,byte[] receipt,
 			Employee requester, ReimbursementType type) {
 		this.amount = amount;
 		this.description = description;
+		this.receipt = receipt;
 		this.requester = requester;
-		this.status = status;
 		this.type = type;
 	}
 	
@@ -143,13 +156,14 @@ public class Reimbursement implements Serializable, Comparable<Reimbursement> {
 	}
 	
 	public Reimbursement(LocalDateTime requested,double amount, 
-			String description,
+			String description,byte[] receipt,
 			ReimbursementStatus status, 
 			ReimbursementType type) {
 		
 		this.requested = requested;
 		this.amount = amount;
 		this.description = description;
+		this.receipt=receipt;
 		this.status = status;
 		this.type = type;
 		
@@ -262,7 +276,7 @@ public class Reimbursement implements Serializable, Comparable<Reimbursement> {
 		return receipt;
 	}
 
-	public void setReceipt(Object receipt) {
+	public void setReceipt(byte[] receipt) {
 		this.receipt = receipt;
 	}
 

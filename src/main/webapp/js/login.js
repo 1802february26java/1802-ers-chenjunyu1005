@@ -47,12 +47,15 @@ function login(data){
     if(data.message==="AUTHENTICATION FAILED"){
 
         document.getElementById("loginMessage").innerHTML ='<span class="label label-danger label-center">Wrong credentials.</span>';
-    }else if (data.message=="No Such Username"){
-        document.getElementById("loginMessage").innerHTML ='<span class="label label-danger label-center">Username does Not exist</span>';
-
     }
+    
+    // else if (data.message=="No Such Username"){
+    //     document.getElementById("loginMessage").innerHTML ='<span class="label label-danger label-center">Username does Not exist</span>';
     else{
         //Using sessionStorage of JavaScript
+
+        document.getElementById("loginMessage").innerHTML ='<span class="label label-success label-center">Login Successful</span>';
+
     sessionStorage.setItem("employeeId",data.id);
     sessionStorage.setItem("employeeUsername",data.username);
 
