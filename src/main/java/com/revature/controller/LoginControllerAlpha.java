@@ -27,7 +27,7 @@ public class LoginControllerAlpha implements LoginController {
 		if(authenticate==null){
 			return new ClientMessage("AUTHENTICATION FAILED");
 		}
-
+		
 		request.getSession().setAttribute("authenticate",authenticate);
 		return authenticate;
 	}

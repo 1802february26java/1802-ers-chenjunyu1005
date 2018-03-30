@@ -108,7 +108,9 @@ public class EmployeeInformationAlpha implements EmployeeInformationController{
 
 	@Override
 	public Object usernameExists(HttpServletRequest request) {
-		
+		if(request.getMethod().equals("GET")){
+			return "checkUsername.html";
+		}
 		
 		
 		if(EmployeeServiceAlpha.getInstance().isUsernameTaken(new Employee(request.getParameter("username")))){
@@ -116,20 +118,7 @@ public class EmployeeInformationAlpha implements EmployeeInformationController{
 	}else {
 		 return new ClientMessage("Valid username");
 	}
-		/*boolean check= EmployeeServiceAlpha.getInstance().isUsernameTaken(new Employee(0
-				,request.getParameter("firstname"),
-				request.getParameter("lastname"),
-				request.getParameter("username"),
-				request.getParameter("password"),
-				request.getParameter("email"),
-				new EmployeeRole(request.getParameter("roletype"))
-				));
 		
-		if(check){
-			return new ClientMessage("Usename is valid");
-		}else{
-			return new ClientMessage("Name Existed");
-		}*/
 	}
 
 }

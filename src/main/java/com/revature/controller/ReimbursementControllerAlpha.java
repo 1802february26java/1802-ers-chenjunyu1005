@@ -49,23 +49,11 @@ public class ReimbursementControllerAlpha implements ReimbursementController{
 		if(employeeInformation==null){
 			return "login.html";
 		}
-		//get array of bytes into to the user;
-		System.out.println(request.getParameter("selectfile"));
+		//get array of bytes into string to the user;
+		System.out.println(request.getParameter("selectfile").getBytes());
 		byte[] bytes = request.getParameter("selectfile").getBytes();
-		new String();
-		/*BufferedInputStream image = new BufferedInputStream(new ByteArrayInputStream(bytes));
-		String path= "c:\tttt";
-		int len =0;
-		byte[] ch = new byte[1024*10];
-		try {
-			while((len=image.read(ch))!=-1){
-				new BufferedOutputStream(new FileOutputStream(new File(path))).write(ch,0,len);
-			}
-		} catch (IOException e) {
-			
-			e.printStackTrace();
-		}*/
-
+		System.out.println(new String(bytes));
+	
 		if(employeeInformation.getEmployeeRole().getType().equals("EMPLOYEE")){
 		boolean submitRequest = ReimbursementSeriveAlpha.getInstance().submitRequest(
 				new Reimbursement(

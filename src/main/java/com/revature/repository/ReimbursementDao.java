@@ -1,20 +1,18 @@
 package com.revature.repository;
 
-import java.io.InputStream;
+import java.io.ByteArrayInputStream;
 import java.sql.Blob;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
-import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
 import org.apache.log4j.Logger;
 
 import com.revature.model.Employee;
-import com.revature.model.EmployeeRole;
 import com.revature.model.Reimbursement;
 import com.revature.model.ReimbursementStatus;
 import com.revature.model.ReimbursementType;
@@ -38,7 +36,7 @@ public class ReimbursementDao implements ReimbursementRepository{
 			statement.setTimestamp(++parameterIndex,new Timestamp(System.currentTimeMillis()));
 			statement.setDouble(++parameterIndex, reimbursement.getAmount());
 			statement.setString(++parameterIndex, reimbursement.getDescription());
-			statement.setBinaryStream(++parameterIndex,(InputStream) reimbursement.getReceipt());
+			statement.setBinaryStream(++parameterIndex,new ByteArrayInputStream( reimbursement.getReceipt()),reimbursement.getReceipt().length);
 			statement.setInt(++parameterIndex, reimbursement.getRequester().getId());
 			statement.setInt(++parameterIndex,1);
 			statement.setString(++parameterIndex,reimbursement.getType().getType().toUpperCase());
@@ -99,14 +97,14 @@ public class ReimbursementDao implements ReimbursementRepository{
 
 			if(rs.next()){
 				if(status.getStatus().equals("PENDING")){
-					Blob image =rs.getBlob("R_RECEIPT");
-					byte[] imageData= image.getBytes(1,(int) image.length() );
+//					Blob image =rs.getBlob("R_RECEIPT");
+//					byte[] imageData= image.getBytes(1,(int) image.length() );
+//					System.out.println(new String(imageData));
 					
 				return new Reimbursement(
 						rs.getTimestamp("R_REQUESTED").toLocalDateTime(),
 						rs.getDouble("R_AMOUNT"),
 						rs.getString("R_DESCRIPTION"),
-						imageData,
 						new ReimbursementStatus(rs.getString("RS_STATUS")),
 						new ReimbursementType(rs.getString("RT_TYPE"))
 						);

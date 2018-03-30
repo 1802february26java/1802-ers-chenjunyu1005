@@ -21,6 +21,7 @@ public class ReimbursementSeriveAlpha implements ReimbursementService {
 	public boolean submitRequest(Reimbursement reimbursement) {
 		if(reimbursement.getAmount()<0){
 			try {
+				
 				throw new NegativeAmountException("Can not be negative");
 			} catch (NegativeAmountException e) {
 				e.printStackTrace();

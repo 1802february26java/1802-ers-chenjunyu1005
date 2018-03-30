@@ -156,7 +156,7 @@ public class Reimbursement implements Serializable, Comparable<Reimbursement> {
 	}
 	
 	public Reimbursement(LocalDateTime requested,double amount, 
-			String description,byte[] receipt,
+			String description,
 			ReimbursementStatus status, 
 			ReimbursementType type) {
 		
@@ -272,7 +272,7 @@ public class Reimbursement implements Serializable, Comparable<Reimbursement> {
 		this.description = description;
 	}
 
-	public Object getReceipt() {
+	public byte[] getReceipt() {
 		return receipt;
 	}
 
