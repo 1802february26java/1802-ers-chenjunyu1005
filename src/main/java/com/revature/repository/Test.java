@@ -1,11 +1,6 @@
 package com.revature.repository;
 
-import java.sql.Timestamp;
-
-import com.revature.model.Employee;
-import com.revature.model.Reimbursement;
-import com.revature.model.ReimbursementStatus;
-import com.revature.model.ReimbursementType;
+import java.util.Base64;
 
 public class Test {
 public static void main(String[] args) {
@@ -24,6 +19,14 @@ public static void main(String[] args) {
 //	System.out.println(new Timestamp(System.currentTimeMillis()));
 //	System.out.println(new Employee());
 	
+	String originalInput = "tesdsdstdada dsadasdainputdaiouoidada";
+	String encodedString = Base64.getEncoder().encodeToString(originalInput.getBytes());
+	System.out.println(encodedString);
+	System.out.println(originalInput.getBytes());
+	
+	byte[] decodedBytes = Base64.getDecoder().decode(encodedString);
+	String decodedString = new String(decodedBytes);
+	System.out.println(decodedString);
 //	System.out.println(ReimbursementDao.getInstance().insert(new Reimbursement(30.0,"SSS",new Employee(21),new ReimbursementType("PENDING"))));
 }
 }

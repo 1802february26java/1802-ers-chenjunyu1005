@@ -23,8 +23,13 @@ public class EmployeeInformationAlpha implements EmployeeInformationController{
 			return "register.html";
 		}
 		Employee employeeInformation=(Employee)request.getSession().getAttribute("authenticate");
+		if(employeeInformation==null){
+			return "login.html";
+		}
 		
-		if(employeeInformation.getEmployeeRole().getType().equals("MANAGER")){
+		if(employeeInformation.getEmployeeRole().getType().equals("EMPLOYEE")){
+			return "404.html";
+		}
 			
 			boolean createEmployee = EmployeeServiceAlpha.getInstance().createEmployee
 					(new Employee(0,
@@ -42,11 +47,11 @@ public class EmployeeInformationAlpha implements EmployeeInformationController{
 			          }
 			 
 		     }
-		else{
-			return new ClientMessage("Do not have the permission to register a Employee");
-		}
+		
+			
+//			return new ClientMessage("Do not have the permission to register a Employee");
 
-	}
+	
 
 	@Override
 	public Object updateEmployee(HttpServletRequest request) {
@@ -97,7 +102,10 @@ public class EmployeeInformationAlpha implements EmployeeInformationController{
 		if(employeeInformation==null){
 			return "login.html";
 		}
-//		if(employeeInformation.getEmployeeRole().getType().equals("MANAGER")){
+		
+		if(employeeInformation.getEmployeeRole().getType().equals("EMPLOYEE")){
+		return "404.html";
+		}
 		if(request.getParameter("fetch") == null) {
 			return "viewAllEmployee.html";
 		}

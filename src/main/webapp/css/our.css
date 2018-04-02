@@ -32,6 +32,10 @@ a {
 .panel-default .panel-heading {
     text-align: center;
 }
+.panel-heading{
+    background-image: url("../images/background.jpg");
+    background-size: contain;
+}
 
 .label-center{
 
@@ -44,10 +48,13 @@ a {
     text-align: center;
 }
 body {
-    background-color: rgb(183, 203, 209);
+    background-image: url("../images/background1.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
 }
 .panel{
-    background-color:silver;
+    background-image: url("../images/background.jpg");
+    background-size: contain;
 }
 .custom-select{
     border: gray;

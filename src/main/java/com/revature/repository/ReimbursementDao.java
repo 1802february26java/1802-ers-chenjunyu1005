@@ -1,6 +1,7 @@
 package com.revature.repository;
 
 import java.io.ByteArrayInputStream;
+import java.io.InputStream;
 import java.sql.Blob;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -36,7 +37,7 @@ public class ReimbursementDao implements ReimbursementRepository{
 			statement.setTimestamp(++parameterIndex,new Timestamp(System.currentTimeMillis()));
 			statement.setDouble(++parameterIndex, reimbursement.getAmount());
 			statement.setString(++parameterIndex, reimbursement.getDescription());
-			statement.setBinaryStream(++parameterIndex,new ByteArrayInputStream( reimbursement.getReceipt()),reimbursement.getReceipt().length);
+			statement.setBinaryStream(++parameterIndex,new ByteArrayInputStream(reimbursement.getReceipt()));
 			statement.setInt(++parameterIndex, reimbursement.getRequester().getId());
 			statement.setInt(++parameterIndex,1);
 			statement.setString(++parameterIndex,reimbursement.getType().getType().toUpperCase());
@@ -96,15 +97,17 @@ public class ReimbursementDao implements ReimbursementRepository{
 			ResultSet rs = statement.executeQuery();
 
 			if(rs.next()){
+				Blob image =rs.getBlob("R_RECEIPT");
+				byte[] imageData= image.getBytes(1,(int) image.length() );
+				System.out.println(imageData);
+				logger.trace("Retrieving String ");
+				System.out.println(new String(imageData));
 				if(status.getStatus().equals("PENDING")){
-//					Blob image =rs.getBlob("R_RECEIPT");
-//					byte[] imageData= image.getBytes(1,(int) image.length() );
-//					System.out.println(new String(imageData));
-					
 				return new Reimbursement(
 						rs.getTimestamp("R_REQUESTED").toLocalDateTime(),
 						rs.getDouble("R_AMOUNT"),
 						rs.getString("R_DESCRIPTION"),
+						imageData,
 						new ReimbursementStatus(rs.getString("RS_STATUS")),
 						new ReimbursementType(rs.getString("RT_TYPE"))
 						);
@@ -114,6 +117,7 @@ public class ReimbursementDao implements ReimbursementRepository{
 							rs.getTimestamp("R_RESOLVED").toLocalDateTime(),
 							rs.getDouble("R_AMOUNT"),
 							rs.getString("R_DESCRIPTION"),
+							imageData,
 							new ReimbursementStatus(rs.getString("RS_STATUS")),
 							new ReimbursementType(rs.getString("RT_TYPE"))
 							);

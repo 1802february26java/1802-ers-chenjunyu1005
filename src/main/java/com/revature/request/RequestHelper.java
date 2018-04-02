@@ -1,5 +1,7 @@
 package com.revature.request;
 
+import java.io.IOException;
+
 import javax.servlet.http.HttpServletRequest;
 
 import com.revature.controller.EmployeeInformationAlpha;
@@ -64,7 +66,14 @@ public class RequestHelper {
 			return new HomeControllerAlpha().showEmployeeHome(request);
 		//Reimbursement Controller	
 		case "/ERS/summitrequest.do":
-			return new ReimbursementControllerAlpha().submitRequest(request);
+	
+			try {
+				return new ReimbursementControllerAlpha().submitRequest(request);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
 			
 		case "/ERS/singlerequest.do":
 			return new ReimbursementControllerAlpha().singleRequest(request);

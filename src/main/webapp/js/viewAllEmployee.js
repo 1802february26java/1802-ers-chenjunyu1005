@@ -83,6 +83,8 @@ function presentEmployees(data){
       txt += "</tbody>"
         txt += "</table>" 
         document.getElementById("profile").innerHTML = txt;
+
+        
    
 
     }

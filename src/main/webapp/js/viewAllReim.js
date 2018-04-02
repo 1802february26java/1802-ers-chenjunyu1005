@@ -48,6 +48,26 @@ function presentReimbursement(data){
     }
     
     else{
+//         var txt='';
+       
+    
+//         for(y in data){
+
+        
+//         txt += '<a><tr class="clickable-row">'
+//         txt += '<td>' + data[y].amount + '</td>';
+//         txt += '<td>' + data[y].description + '</td>';
+//         txt += '<td>' + data[y].requester.firstName + '</td>';
+//         txt += '<td>' + data[y].requester.lastName + '</td>';
+//         txt += '<td>' + data[y].requester.email + '</td>';
+//         txt += '<td>' + data[y].status.status + '</td>';
+//         txt += '<td>' + data[y].type.type + '</td>';
+//         txt += '<td><a id="singlerequst">' + 'singleRequsting' + '</a></td>';
+
+//        txt += '</tr></a>'
+    
+//    } 
+//    document.getElementById("tableData").innerHTML = txt;
       let employeeList = document.getElementById("profile");
       employeeList.innerHTML ="";
 
@@ -56,7 +76,7 @@ function presentReimbursement(data){
         //   employeeNode.href="singlerequest.do";
           employeeNode.className ="list-group-item";
           employeeNode.id="singleid";
-        let employeeNodeText = document.createTextNode(`Amount:${employee.amount} FirstName:${ employee.requester.firstName} LastName: ${employee.requester.lastName} Email:  ${employee.requester.email}
+        let employeeNodeText = document.createTextNode(`Amount:${employee.amount} Description:${employee.description} FirstName:${ employee.requester.firstName} LastName: ${employee.requester.lastName} Email:  ${employee.requester.email}
         Status: ${employee.status.status} Type : ${employee.type.type}`);
     //else retrieve resolved date
         employeeNode.appendChild(employeeNodeText);

@@ -1,9 +1,9 @@
 package com.revature.util;
 
 public enum StringUtil {
-	    INDIA("India"),
-	    RUSSIA("Russia"),
-	    NORTH_AMERICA("North America");
+	    MANAGER("MANAGER"),
+	    EMPLOYEE("EMPLOYEE"),
+	    UPDATESUCCESSFULLY("UPDATE SUCCESSFULLY");
 
 	    private String displayName;
 

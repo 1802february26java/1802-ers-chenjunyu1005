@@ -73,6 +73,7 @@ public class Reimbursement implements Serializable, Comparable<Reimbursement> {
 	 * FOREIGN KEY coming from REIMBURSEMENT_TYPE
 	 */
 	private ReimbursementType type;
+	
 
 	public Reimbursement() {}
 	
@@ -143,6 +144,7 @@ public class Reimbursement implements Serializable, Comparable<Reimbursement> {
 	
 	public Reimbursement(LocalDateTime requested, LocalDateTime resolved, double amount, 
 			String description,
+			byte[] receipt,
 			ReimbursementStatus status, 
 			ReimbursementType type) {
 		
@@ -150,6 +152,8 @@ public class Reimbursement implements Serializable, Comparable<Reimbursement> {
 		this.resolved = resolved;
 		this.amount = amount;
 		this.description = description;
+		this.receipt= receipt;
+
 		this.status = status;
 		this.type = type;
 		
@@ -157,13 +161,14 @@ public class Reimbursement implements Serializable, Comparable<Reimbursement> {
 	
 	public Reimbursement(LocalDateTime requested,double amount, 
 			String description,
+			byte[] receipt,
 			ReimbursementStatus status, 
 			ReimbursementType type) {
 		
 		this.requested = requested;
 		this.amount = amount;
 		this.description = description;
-		this.receipt=receipt;
+		this.receipt= receipt;
 		this.status = status;
 		this.type = type;
 		

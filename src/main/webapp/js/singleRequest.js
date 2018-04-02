@@ -79,6 +79,13 @@ function presentEmployee(data){
       txt += "</tbody>"
         txt += "</table>" 
         document.getElementById("profile").innerHTML = txt;
+       
+        // var picture= new String(data.receipt);
+
+        //Convert to String and insert in a image tag
+        let picture=atob(data.receipt);
+        console.log(picture);
+        document.getElementById("ItemPreview").src=picture;
       
     //   let customerList = document.getElementById("profile");
 
@@ -130,6 +137,9 @@ function presentEmployee(data){
         txt += "</tbody>"
           txt += "</table>" 
           document.getElementById("profile").innerHTML = txt;
+
+          let picture=atob(data.receipt);
+          document.getElementById("ItemPreview").src=picture;
 
     }
 

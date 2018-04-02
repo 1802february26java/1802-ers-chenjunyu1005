@@ -9,17 +9,16 @@ public class HomeControllerAlpha implements HomeController{
 
 	@Override
 	public String showEmployeeHome(HttpServletRequest request) {
-//		Employee employeeInformation = EmployeeServiceAlpha.getInstance().getEmployeeInformation(new Employee
-//				(Integer.parseInt(request.getParameter("userTypeID"))));
+
            
 		Employee employeeInformation=(Employee)request.getSession().getAttribute("authenticate");
 		if(employeeInformation==null){
 			return "login.html";
 		}
 		if(employeeInformation.getEmployeeRole().getType().equals("EMPLOYEE")){
-			return "home.html";
+			return "employeeHome.html";
 		}else {
-		return "home2.html";
+		return "managerHome.html";
 		}
 		
 	}

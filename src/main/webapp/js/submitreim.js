@@ -20,23 +20,37 @@ window.onload =() => {
 
         let type = e.options[e.selectedIndex].value;
 
+        let selectfile  = document.getElementById("file").files[0];
+        console.log(selectfile);
+        // var formData = new FormData();
         
+
+        // formData.append('amount',amount);
+        // formData.append('description',description);
+        // formData.append('type',type);
+        // formData.append('selectfile',selectfile);
+
 
         
 
 
         let reader = new FileReader();
-
+        
         reader.onload= (event)=>{
-
-            sessionStorage("imageresult",event.target.result);
+            sessionStorage.setItem("imageresult",event.target.result);
             // console.log(reader.result);
-
         }
-
-        let selectfile  = document.getElementById("file").files[0];
-
+      
         let img= reader.readAsDataURL(selectfile);
+
+        let upload=sessionStorage.getItem("imageresult");
+
+        // var block = upload.split(";");
+
+        // var contentType = block[0].split(":")[1];
+        // var realData = block[1].split(",")[1];
+        // var blob = b64toBlob(realData, contentType);
+        // body.post(URL, {image: upload})
 
 
    
@@ -69,12 +83,6 @@ window.onload =() => {
 
                 console.log(data);
 
-
-
-                //Call registration response processing
-
-
-
                 submitReiem(data);
 
             }
@@ -87,14 +95,14 @@ window.onload =() => {
 
         //Doing a Http to a specific endpoint
 
+        // body.(.post(URL, {image: stringValue})
 
-
-    xhr.open("POST",`summitrequest.do?amount=${amount}&description=${description}&type=${type}&selectfile=${event.target.result}`);   
+    xhr.open("POST",`summitrequest.do?amount=${amount}&description=${description}&type=${type}`);   
 
         //Sending our request
 
-        xhr.send();
-
+        xhr.send(upload);
+    //    xhr.send();
     
 
     })
@@ -103,6 +111,29 @@ window.onload =() => {
 
 }
 
+// function b64toBlob(b64Data, contentType, sliceSize) {
+//     contentType = contentType || '';
+//     sliceSize = sliceSize || 512;
+
+//     var byteCharacters = atob(b64Data);
+//     var byteArrays = [];
+
+//     for (var offset = 0; offset < byteCharacters.length; offset += sliceSize) {
+//         var slice = byteCharacters.slice(offset, offset + sliceSize);
+
+//         var byteNumbers = new Array(slice.length);
+//         for (var i = 0; i < slice.length; i++) {
+//             byteNumbers[i] = slice.charCodeAt(i);
+//         }
+
+//         var byteArray = new Uint8Array(byteNumbers);
+
+//         byteArrays.push(byteArray);
+//     }
+
+//   var blob = new Blob(byteArrays, {type: contentType});
+//   return blob;
+// }
 
 
 function disableAllComponents(){
@@ -133,23 +164,12 @@ function submitReiem(data){
 
         // sessionStorage.setItem("reimbursementId",data.id);
 
-        
-
-
 
         disableAllComponents();
 
-        document.getElementById("registrationMessage").innerHTML ='<span class="label label-success label-center">Update Successful</span>';
+        document.getElementById("registrationMessage").innerHTML ='<span class="label label-success label-center">Upload Successful</span>';
 
         setTimeout(()=>{ window.location.replace("home.do") }, 3000);
-
-
-
-       
-
-
-
-
 
     }
 

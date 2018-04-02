@@ -1,13 +1,11 @@
 package com.revature.controller;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.log4j.Logger;
@@ -18,6 +16,7 @@ import com.revature.model.Reimbursement;
 import com.revature.model.ReimbursementStatus;
 import com.revature.model.ReimbursementType;
 import com.revature.service.ReimbursementSeriveAlpha;
+import com.revature.thread.JavaSendEmailThread;
 
 
 /**
@@ -40,21 +39,46 @@ public class ReimbursementControllerAlpha implements ReimbursementController{
 	 * 
 	 * It should return a message stating whether the reimbursement request
 	 * was successfully created or not.
+	 * @throws ServletException 
+	 * @throws IOException 
 	 */
 	@Override
-	public Object submitRequest(HttpServletRequest request) {
+	public Object submitRequest(HttpServletRequest request) throws IOException {
 		
 		Employee employeeInformation=(Employee)request.getSession().getAttribute("authenticate");
 
 		if(employeeInformation==null){
 			return "login.html";
 		}
-		//get array of bytes into string to the user;
-		System.out.println(request.getParameter("selectfile").getBytes());
-		byte[] bytes = request.getParameter("selectfile").getBytes();
-		System.out.println(new String(bytes));
-	
-		if(employeeInformation.getEmployeeRole().getType().equals("EMPLOYEE")){
+		if(request.getMethod().equals("GET")){
+			return "submitReim.html";
+		}
+		if(employeeInformation.getEmployeeRole().getType().equals("MANAGER")){
+			return "404.html";
+		}
+		StringBuilder stringBuilder = new StringBuilder();
+		BufferedReader bufferedReader = null;
+		try{
+		InputStream inputStream =request.getInputStream();
+		if (inputStream != null) {
+			bufferedReader = new BufferedReader(new InputStreamReader(
+			inputStream));
+			char[] charBuffer = new char[1024*10];
+			int bytesRead = -1;
+			while ((bytesRead = bufferedReader.read(charBuffer)) > 0) {
+			stringBuilder.append(charBuffer, 0, bytesRead);
+			}
+			} else {
+			stringBuilder.append("");
+			}
+			} catch (IOException ex) {
+			throw ex;
+			} 
+			String body = stringBuilder.toString();
+			logger.trace("Uploading  format");
+			logger.trace(body);
+			byte[] bytes = body.getBytes();
+
 		boolean submitRequest = ReimbursementSeriveAlpha.getInstance().submitRequest(
 				new Reimbursement(
 						Double.parseDouble(request.getParameter("amount")),
@@ -71,8 +95,7 @@ public class ReimbursementControllerAlpha implements ReimbursementController{
 		}
 		return new ClientMessage("Fails");
 		}
-		return new ClientMessage("Only Employee Can Submit");
-	}
+	
 
 	/**
 	 * Returns a single reimbursement request specified by the user.
@@ -170,8 +193,10 @@ public class ReimbursementControllerAlpha implements ReimbursementController{
 							new Employee(information.getId()),
 							new ReimbursementStatus(request.getParameter("reimbursementstatus").toUpperCase())
 							));
-			if(finalizeRequest)
+			if(finalizeRequest){
+//				new JavaSendEmailThread().run();
 				return new ClientMessage("Update Reimbursement Successfully");
+			}
 			return new ClientMessage("Fails");
 		}
 		return new  ClientMessage("Do not have authority to do it ");
